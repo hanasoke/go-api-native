@@ -31,4 +31,5 @@ func LoadConfig() {
 		log.Fatal(err)
 	}
 
+	log.Println("Load server successfully")
 }

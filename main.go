@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"go-api-native/config"
 	"log"
 	"net/http"
 
@@ -9,6 +10,8 @@ import (
 )
 
 func main() {
+	config.LoadConfig()
+
 	r := mux.NewRouter()
 
 	log.Println("Server running on port 8080")
