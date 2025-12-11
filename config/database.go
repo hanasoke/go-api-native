@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"go-api-native/models"
 
 	log "github.com/sirupsen/logrus"
 
@@ -18,6 +19,8 @@ func ConnectDB() {
 	if err != nil {
 		panic("Failed to connect database")
 	}
+
+	db.AutoMigrate(&models.Author{})
 
 	DB = db
 	log.Println("Database connected")
