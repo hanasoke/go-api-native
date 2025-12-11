@@ -11,11 +11,12 @@ import (
 
 func main() {
 	config.LoadConfig()
+	config.ConnectDB()
 
 	r := mux.NewRouter()
 
-	log.Println("Server running on port 8080")
-	http.ListenAndServe(fmt.Sprintf(":%v", "8080"), r)
+	log.Println("Server running on port", config.ENV.PORT)
+	http.ListenAndServe(fmt.Sprintf(":%v", config.ENV.PORT), r)
 
 	log.Println()
 }
