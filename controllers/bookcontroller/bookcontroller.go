@@ -2,10 +2,13 @@ package bookcontroller
 
 import (
 	"encoding/json"
+	"errors"
 	"go-api-native/config"
 	"go-api-native/helper"
 	"go-api-native/models"
 	"net/http"
+
+	"gorm.io/gorm"
 )
 
 func Index(w http.ResponseWriter, r *http.Request) {
@@ -27,4 +30,16 @@ func Create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	defer r.Body.Close()
+
+	// Check author
+	var author models.Author
+	if err := config.DB.First(&author, book.AuthorID).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			helper.Response(w, 404, "Author not found", nil)
+			return
+		}
+
+		helper.Response(w, 500, err.Error(), nil)
+		return
+	}
 }
