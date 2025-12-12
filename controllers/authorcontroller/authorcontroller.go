@@ -91,3 +91,22 @@ func Update(w http.ResponseWriter, r *http.Request) {
 
 	helper.Response(w, 201, "Success Update Author", nil)
 }
+
+func Delete(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)["id"]
+	id, _ := strconv.Atoi(params)
+
+	var author models.Author
+	res := config.DB.Delete(&author, id)
+
+	if res.Error != nil {
+		helper.Response(w, 500, res.Error.Error(), nil)
+	}
+
+	if res.RowsAffected == 0 {
+		helper.Response(w, 404, "Author Not Found", nil)
+		return
+	}
+
+	helper.Response(w, 404, "Success Delete Author", nil)
+}
