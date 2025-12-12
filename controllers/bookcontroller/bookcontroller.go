@@ -42,4 +42,11 @@ func Create(w http.ResponseWriter, r *http.Request) {
 		helper.Response(w, 500, err.Error(), nil)
 		return
 	}
+
+	if err := config.DB.Create(&book).Error; err != nil {
+		helper.Response(w, 500, err.Error(), nil)
+		return
+	}
+
+	helper.Response(w, 201, "Success create book", nil)
 }
