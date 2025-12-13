@@ -14,7 +14,7 @@ import (
 func Index(w http.ResponseWriter, r *http.Request) {
 	var books []models.Book
 
-	if err := config.DB.Find(&books).Error; err != nil {
+	if err := config.DB.Joins("Author").Find(&books).Error; err != nil {
 		helper.Response(w, 500, err.Error(), nil)
 		return
 	}
