@@ -101,14 +101,20 @@ func Update(w http.ResponseWriter, r *http.Request) {
 	var author models.Author
 	if bookPayLoad.AuthorID != 0 {
 		if err := config.DB.First(&author, bookPayLoad.AuthorID).Error; err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				helper.Response(w, 404, "Author Not Found", nil)
+				return
+			}
 
+			helper.Response(w, 500, err.Error(), nil)
+			return
 		}
 	}
 
-	if err := config.DB.Where("id = ?", id).Updates(&author).Error; err != nil {
+	if err := config.DB.Where("id = ?", id).Updates(&bookPayLoad).Error; err != nil {
 		helper.Response(w, 500, err.Error(), nil)
 		return
 	}
 
-	helper.Response(w, 201, "Success Update Author", nil)
+	helper.Response(w, 201, "Success Update Book", nil)
 }
