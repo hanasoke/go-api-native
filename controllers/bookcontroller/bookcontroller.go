@@ -13,13 +13,14 @@ import (
 
 func Index(w http.ResponseWriter, r *http.Request) {
 	var books []models.Book
+	var BookResponse []models.BookResponse
 
-	if err := config.DB.Joins("Author").Find(&books).Error; err != nil {
+	if err := config.DB.Joins("Author").Find(&books).Find(&BookResponse).Error; err != nil {
 		helper.Response(w, 500, err.Error(), nil)
 		return
 	}
 
-	helper.Response(w, 200, "List Book's", books)
+	helper.Response(w, 200, "List Book's", BookResponse)
 }
 
 func Create(w http.ResponseWriter, r *http.Request) {

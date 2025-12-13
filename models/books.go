@@ -11,3 +11,13 @@ type Book struct {
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`
 }
+
+type BookResponse struct {
+	ID          uint               `json:"id"`
+	Title       string             `json:"title"`
+	AuthorID    uint               `json:"-"`
+	Author      AuthorBookResponse `gorm:"foreignKey:AuthorID" json:"author"`
+	Description string             `json:"description"`
+	CreatedAt   time.Time          `json:"created_at"`
+	UpdatedAt   time.Time          `json:"updated_at"`
+}
